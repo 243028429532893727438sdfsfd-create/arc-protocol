@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ARC PROTOCOL (Протокол Дуги) — One-Pager | GamesUp42</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #070b14;
+        --card: #0f172a;
+        --border: rgba(34, 211, 238, 0.25);
+        --cyan: #22d3ee;
+        --amber: #f59e0b;
+        --emerald: #10b981;
+        --text: #e2e8f0;
+        --muted: #94a3b8;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        padding: 24px 16px 40px;
+        background: radial-gradient(circle at 15% 10%, #10203a 0%, var(--bg) 60%);
+        color: var(--text);
+        font-family: 'Inter', system-ui, sans-serif;
+        line-height: 1.5;
+      }
+      .page {
+        max-width: 980px;
+        margin: 0 auto;
+        background: rgba(15, 23, 42, 0.94);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 28px 32px;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+        padding-bottom: 16px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+      .kicker {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        color: var(--cyan);
+        text-transform: uppercase;
+      }
+      h1 {
+        margin: 4px 0 6px;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 32px;
+        background: linear-gradient(90deg, #fff, #67e8f9 60%, #fbbf24);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .pitch {
+        margin: 0;
+        color: #cbd5e1;
+        font-size: 14.5px;
+        max-width: 660px;
+      }
+      .links {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-end;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 14px;
+        border-radius: 10px;
+        font-family: 'Space Grotesk', sans-serif;
+        font-weight: 700;
+        font-size: 13px;
+        text-decoration: none;
+        color: #fff;
+        background: linear-gradient(135deg, #06b6d4, #2563eb);
+      }
+      .pill.sec {
+        background: #1e293b;
+        border: 1px solid var(--border);
+        color: #67e8f9;
+      }
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+      .box {
+        background: rgba(10, 16, 30, 0.78);
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        border-radius: 12px;
+        padding: 14px 16px;
+      }
+      h2 {
+        margin: 0 0 8px;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 15px;
+        color: #67e8f9;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      ul {
+        margin: 0;
+        padding-left: 18px;
+        font-size: 13px;
+        color: #cbd5e1;
+      }
+      li { margin-bottom: 5px; }
+      p { margin: 0 0 8px; font-size: 13px; color: #cbd5e1; }
+      .metric {
+        text-align: center;
+        padding: 10px;
+        border-radius: 10px;
+        background: rgba(34, 211, 238, 0.07);
+        border: 1px solid rgba(34, 211, 238, 0.2);
+      }
+      .metric strong {
+        display: block;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 20px;
+        color: #fff;
+      }
+      .metric span { font-size: 11px; color: var(--muted); }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12.5px;
+      }
+      th, td {
+        text-align: left;
+        padding: 7px 8px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+      }
+      th { color: #fcd34d; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+      .footer {
+        margin-top: 14px;
+        padding-top: 12px;
+        border-top: 1px solid rgba(148, 163, 184, 0.16);
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        color: var(--muted);
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      @media (max-width: 760px) {
+        .grid-2, .grid-3 { grid-template-columns: 1fr; }
+        .links { align-items: flex-start; }
+      }
+      @media print {
+        body { background: #fff; color: #0f172a; padding: 0; }
+        .page { box-shadow: none; border: none; background: #fff; }
+      }
+    </style>
+  </head>
+  <body>
+    <article class="page">
+      <header class="header">
+        <div>
+          <div class="kicker">ONE-PAGER · STEAM INDIE PROTOTYPE · GAMESUP42 R&amp;D</div>
+          <h1>ARC PROTOCOL — Протокол Дуги</h1>
+          <p class="pitch">
+            <strong>Тактический Grid-Roguelite Deckbuilder</strong> (<em>Into the Breach</em> × <em>Slay the Spire</em> × <em>Balatro</em>):
+            игрок управляет автономным энерго-ядром на арене 5×5, расставляет <strong>Энерго-Реле</strong>,
+            сбрасывает врагов в пропасти и поджигает <strong>цепные дуговые разряды</strong> с растущим множителем урона.
+          </p>
+        </div>
+        <div class="links">
+          <a class="pill" href="./index.html">⚡ Играть в прототип</a>
+          <a class="pill sec" href="https://github.com/243028429532893727438sdfsfd-create/arc-protocol" target="_blank" rel="noreferrer">GitHub исходники</a>
+        </div>
+      </header>
+
+      <div class="grid-3">
+        <div class="metric"><strong>30–60+ мин</strong><span>Контента в прототипе (3 сектора, 3 ядра, OD 0–3)</span></div>
+        <div class="metric"><strong>5–6 мес.</strong><span>Реалистичный продакшен полной версии для Steam</span></div>
+        <div class="metric"><strong>$9.99–$14.99</strong><span>Целевая цена Steam · высокий реиграбельный потенциал</span></div>
+      </div>
+
+      <div class="grid-2">
+        <section class="box">
+          <h2>1. Ключевая фишка (USP) и Core Loop</h2>
+          <p><strong>Главная механика — пространственные Дуговые Цепи + Кинетика:</strong></p>
+          <ul>
+            <li><strong>Телеграфирование ходов:</strong> все атаки врагов заранее подсвечены на сетке 5×5 — игрок решает тактическую головоломку, а не играет «вслепую».</li>
+            <li><strong>Сеть Энерго-Реле:</strong> узлы в радиусе ≤2 автоматически связываются в контур. Любая Дуга проходит по всей цепи и даёт <strong>растущий бонус за каждый узел</strong> (×2, ×3, ×4+ — дофамин уровня <em>Balatro</em>).</li>
+            <li><strong>Синергия с отталкиванием:</strong> толчки врагов в стены/колонны дают <em>Slam +3</em>, в пропасть — <em>мгновенное убийство</em>, а толчок врага в собственное Реле — <strong>взрыв узла по площади</strong>!</li>
+            <li><strong>Live-превью хода:</strong> при наведении карты арена заранее рисует дуги, стрелки отталкивания и точный летальный урон.</li>
+          </ul>
+        </section>
+
+        <section class="box">
+          <h2>2. Что уже работает в прототипе</h2>
+          <ul>
+            <li><strong>3 полноценных Сектора</strong> с ветвящейся картой узлов (Бои, Элиты, Мастерские, Чёрный Рынок, 8 нарративных Событий, 3 уникальных Босса).</li>
+            <li><strong>31 уникальная карта</strong> (62 состояния с апгрейдами <code>+</code>) по 4 архетипам: <em>Дуга, Кинетика, Защита, Разгон</em>.</li>
+            <li><strong>16 пассивных Модулей (Relics)</strong>, включая 3 легендарных модуля Боссов, меняющих стиль игры.</li>
+            <li><strong>3 Пилота-Ядра</strong> (VOLT-01, TITAN-04, PULSE-09), уровни сложности <strong>Overdrive 0–3</strong> и мета-прогрессия <em>Лаборатория Ядра</em> (с автосохранением + режимом ревьюера).</li>
+            <li><strong>60fps Canvas-арена + Web Audio синтезатор</strong> (звук дуги растёт по тону с длиной цепи) + RU/EN локализация.</li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="grid-2">
+        <section class="box">
+          <h2>3. Коммерческий потенциал под Steam</h2>
+          <ul>
+            <li><strong>Проверенная ниша:</strong> гибриды deckbuilder + тактическая сетка (<em>Into the Breach</em>, <em>Cobalt Core</em>, <em>Shogun Showdown</em>, <em>StarVaders</em>) показывают высокий wishlist-конверт, низкий churn и виральность у стримеров благодаря зрелищным комбо.</li>
+            <li><strong>Целевая аудитория:</strong> фанаты roguelike-deckbuilder и тактических пазлов, любящие короткие сессии (25–40 мин на забег) и «сломанные» билд-синергии.</li>
+            <li><strong>Точка виральности:</strong> «цепная реакция на всю арену за 1 ход» и мгновенные сбросы элиток в пропасть отлично работают в коротких роликах (Steam Next Fest, TikTok/YouTube Shorts).</li>
+          </ul>
+        </section>
+
+        <section class="box">
+          <h2>4. Пайплайн с AI и роль автора</h2>
+          <ul>
+            <li><strong>Решения автора:</strong> концепция слияния дуговых цепей и кинетики, архитектура чистого движка (отделение симуляции от Canvas/UI), UX превью урона, баланс 3 секторов и ручное плейтестирование.</li>
+            <li><strong>Поручено AI (Antigravity / LLM-агенты):</strong> ускорение генерации TypeScript-модулей, процедурного Web Audio синтезатора, карт/событий/текстов RU+EN, автотестов Vitest и визуальной полировки UI.</li>
+            <li><strong>Контроль качества:</strong> юнит-тесты боевого движка и графа карты (Vitest), проверка сборки TypeScript, ручной прогон в браузере без консоли ошибок.</li>
+          </ul>
+        </section>
+      </div>
+
+      <section class="box">
+        <h2>5. План производства полной версии для Steam (6 месяцев)</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Этап</th>
+              <th>Срок</th>
+              <th>Ключевые результаты</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>M1. Вертикальный срез</strong></td>
+              <td>Месяц 1</td>
+              <td>Финализация арт-дирекшена (стилизованный 2.5D/изометрия или пиксель-киберпанк), звук/OST, полировка геймфила и Steam-страница для сбора вишлистов.</td>
+            </tr>
+            <tr>
+              <td><strong>M2–M3. Контент и синергии</strong></td>
+              <td>Месяцы 2–3</td>
+              <td>Расширение до 100+ карт, 45+ модулей, 5 Пилотов-Ядер, 25+ врагов, 6 боссов, интерактивные биомы (магнитные рельсы, крио-плиты, конвейеры).</td>
+            </tr>
+            <tr>
+              <td><strong>M4. Демо и Next Fest</strong></td>
+              <td>Месяц 4</td>
+              <td>Публичное Steam Demo (Акт I + 2 ядра), телеметрия баланса, плейтесты с комьюнити, итерации по отзывам стримеров и игроков.</td>
+            </tr>
+            <tr>
+              <td><strong>M5. Мета, режимы, локализация</strong></td>
+              <td>Месяц 5</td>
+              <td>Ежедневные забеги (Daily Seed), лидерборды, достижения Steam, контроллер/Steam Deck, локализация (EN/RU/ZH/DE/JA).</td>
+            </tr>
+            <tr>
+              <td><strong>M6. Полировка и релиз 1.0</strong></td>
+              <td>Месяц 6</td>
+              <td>Финальный баланс Overdrive 1–10, QA-регресс, релизный трейлер, запуск в Steam.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <footer class="footer">
+        <span>Автор: <strong>Иван Пятыров</strong> · Telegram: @Ivan25006 · VanyaPyatyrov2000@yandex.ru</span>
+        <span>Стек прототипа: TypeScript · React 18 · HTML5 Canvas · Web Audio API · Vite</span>
+      </footer>
+    </article>
+  </body>
+</html>
