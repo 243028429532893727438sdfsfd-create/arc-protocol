@@ -76,6 +76,9 @@ export function isTileBlockedForWalk(state: CombatState, x: number, y: number, i
   if (tile.terrain === 'pillar' || tile.terrain === 'pit') return true;
   if (!ignorePlayer && state.player.x === x && state.player.y === y) return true;
   if (getEnemyAt(state, x, y)) return true;
+  const node = getNodeAt(state, x, y);
+  // Relay and Tesla Coils physically block enemy movement; Mines remain walkable so enemies trigger them!
+  if (node && node.kind !== 'mine') return true;
   return false;
 }
 
@@ -977,7 +980,23 @@ export function createCombatState(params: {
     (relicIds.includes('chrono_stabilizer') ? 4 : 0) +
     (metaUpgrades.emergency_shield ?? 0) * 4;
 
-  const shuffled = shuffle(deck.map((c) => ({ ...c })));
+  let shuffled = shuffle(deck.map((c) => ({ ...c })));
+  if (showTutorial) {
+    // Guarantee Turn 1 tutorial hand has a Relay, an Arc Spark, and a Piston Strike for smooth onboarding
+    const priorityIds = ['deploy_relay', 'arc_spark', 'piston_strike'];
+    const front: CardInstance[] = [];
+    const rest: CardInstance[] = [];
+    const picked = new Set<string>();
+    for (const c of shuffled) {
+      if (priorityIds.includes(c.defId) && !picked.has(c.defId)) {
+        picked.add(c.defId);
+        front.push(c);
+      } else {
+        rest.push(c);
+      }
+    }
+    shuffled = [...front, ...rest];
+  }
   const drawCount =
     5 +
     (relicIds.includes('quantum_capacitor') ? 1 : 0) +

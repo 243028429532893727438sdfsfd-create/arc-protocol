@@ -365,7 +365,7 @@ body,
 
 .combat-main {
   display: grid;
-  grid-template-columns: auto minmax(290px, 1fr);
+  grid-template-columns: 478px minmax(310px, 1fr);
   gap: 16px;
   align-items: start;
 }
@@ -390,6 +390,7 @@ body,
 }
 
 .arena-wrap {
+  width: fit-content;
   border-radius: 14px;
   padding: 4px;
   background: linear-gradient(145deg, rgba(34, 211, 238, 0.32), rgba(245, 158, 11, 0.22));

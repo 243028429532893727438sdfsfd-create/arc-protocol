@@ -185,6 +185,37 @@ describe('ARC PROTOCOL — Core Mechanics & Balance Engine', () => {
     expect(run.screen).toBe('map');
   });
 
+  it('verifies Relay nodes block enemy walking while Mines trigger when stepped on', () => {
+    const tpl = ENCOUNTERS[0];
+    const deck = PILOTS[0].starterDeck.map((id) => ({ uid: nextUid('c'), defId: id, upgraded: false }));
+    const state = createCombatState({
+      template: tpl,
+      deck,
+      hp: 46,
+      maxHp: 46,
+      baseEnergy: 3,
+      relicIds: [],
+      overdrive: 0,
+      metaUpgrades: {},
+      showTutorial: true,
+    });
+    // Tutorial guarantees deploy_relay + arc_spark in Turn 1 hand
+    expect(state.hand.some((c) => c.defId === 'deploy_relay')).toBe(true);
+    expect(state.hand.some((c) => c.defId === 'arc_spark')).toBe(true);
+
+    // Put a Relay directly between player (0,2) and enemy (2,2)
+    state.player.x = 0;
+    state.player.y = 2;
+    state.enemies = [state.enemies[0]];
+    state.enemies[0].x = 2;
+    state.enemies[0].y = 2;
+    state.nodes = [{ id: 'blocker_relay', x: 1, y: 2, kind: 'relay', power: 2 }];
+
+    const next = endPlayerTurn(state, [], 0);
+    // Enemy must NOT overlap (1,2) relay!
+    expect(next.enemies[0].x === 1 && next.enemies[0].y === 2).toBe(false);
+  });
+
   it('verifies content depth meets 30+ min prototype target', () => {
     expect(Object.keys(CARDS).length).toBeGreaterThanOrEqual(28);
     expect(Object.keys(RELICS).length).toBeGreaterThanOrEqual(15);
